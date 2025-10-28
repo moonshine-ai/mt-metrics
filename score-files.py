@@ -28,14 +28,12 @@ def score_file(input_file, language1, language2, comet_scorer, gpus):
             lang1_to_2_total_bleu += lang1_to_2_bleu
             lang2_to_1_total_bleu += lang2_to_1_bleu
             sentence_count += 1
-    print(f"{language1} to {language2} BLEU score: {lang1_to_2_total_bleu / sentence_count:.2f}")
-    print(f"{language2} to {language1} BLEU score: {lang2_to_1_total_bleu / sentence_count:.2f}")
     lang1_to_2_comet_results = comet_scorer.predict(lang1_to_2_comet_data, progress_bar=False)
     lang1_to_2_comet_score = np.mean(lang1_to_2_comet_results.scores)
-    print(f"{language1} to {language2} COMET score: {lang1_to_2_comet_score:.2f}")
     lang2_to_1_comet_results = comet_scorer.predict(lang2_to_1_comet_data, progress_bar=False)
     lang2_to_1_comet_score = np.mean(lang2_to_1_comet_results.scores)
-    print(f"{language2} to {language1} COMET score: {lang2_to_1_comet_score:.2f}")
+    print(f"{language1} to {language2}, {lang1_to_2_total_bleu / sentence_count:.2f}, {lang1_to_2_comet_score:.2f}")
+    print(f"{language2} to {language1}, {lang2_to_1_total_bleu / sentence_count:.2f}, {lang2_to_1_comet_score:.2f}")
 
 def main(file_suffix):
     print("Loading COMET scorer...")
